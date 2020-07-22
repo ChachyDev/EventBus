@@ -38,7 +38,7 @@ public abstract class BaseASMEventListener implements Listener<Object> {
     }
 
     @Override
-    public String describe() {
+    public @NotNull String describe() {
         return method.getDeclaringClass().getName() + "." + method.getName() + "(" + eventClass.getName() + ")";
     }
 }

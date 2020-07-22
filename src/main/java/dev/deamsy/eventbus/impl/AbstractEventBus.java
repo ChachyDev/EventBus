@@ -16,7 +16,7 @@ public abstract class AbstractEventBus implements EventBus {
     }
 
     @Override
-    public <@NotNull T> int registerLambda(@NotNull Class<@NotNull T> eventClass, LambdaEventListener<@NotNull T> listener) {
+    public <@NotNull T> int registerLambda(@NotNull Class<@NotNull T> eventClass, @NotNull LambdaEventListener<@NotNull T> listener) {
         return registerLambda(eventClass, listener, 0);
     }
 

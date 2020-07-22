@@ -6,7 +6,6 @@ import dev.deamsy.eventbus.impl.listener.Listener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public abstract class ListenerEventBus extends AbstractEventBus {
     protected Map<Integer, Listener<?>> listeners = new LinkedHashMap<>();
 
     @Override
-    public <@NotNull T> int registerLambda(@NotNull Class<T> eventClass, LambdaEventListener<T> listener, int priority) {
+    public <@NotNull T> int registerLambda(@NotNull Class<@NotNull T> eventClass, @NotNull LambdaEventListener<@NotNull T> listener, int priority) {
         return registerListener(new Listener<T>() {
             @Override
             public @NotNull Class<T> getEventClass() {
@@ -44,7 +43,7 @@ public abstract class ListenerEventBus extends AbstractEventBus {
             }
 
             @Override
-            public String describe() {
+            public @NotNull String describe() {
                 return String.format("<lambda listener, backing implementation %s>", listener);
             }
         });
@@ -60,7 +59,7 @@ public abstract class ListenerEventBus extends AbstractEventBus {
         listeners.remove(id);
     }
 
-    protected int registerListener(@NotNull Listener<?> listener) {
+    protected int registerListener(@NotNull Listener<@NotNull ?> listener) {
         int id = generateNewId();
         listeners.put(id, listener);
         sortListenerMap();
@@ -68,7 +67,7 @@ public abstract class ListenerEventBus extends AbstractEventBus {
     }
 
     @Override
-    public <T> int[] register(@NotNull Class<T> clazz, @Nullable T object) {
+    public <T> int[] register(@NotNull Class<@NotNull T> clazz, @Nullable T object) {
         List<Method> validEventListenerMethods = new ArrayList<>();
 
         for (Method method : clazz.getMethods()) {
@@ -121,5 +120,5 @@ public abstract class ListenerEventBus extends AbstractEventBus {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
     }
 
-    protected abstract Listener<?> createListener(Method method, Object obj, int id);
+    protected abstract @NotNull Listener<@NotNull ?> createListener(@NotNull Method method, @Nullable Object obj, int id);
 }

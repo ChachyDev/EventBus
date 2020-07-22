@@ -4,6 +4,8 @@ import dev.deamsy.eventbus.api.listener.EventListener;
 import dev.deamsy.eventbus.impl.ListenerEventBus;
 import dev.deamsy.eventbus.impl.listener.Listener;
 import lombok.SneakyThrows;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -19,7 +21,7 @@ public class ASMEventBus extends ListenerEventBus {
 
     @Override
     @SneakyThrows
-    protected Listener<?> createListener(Method method, Object obj, int id) {
+    protected @NotNull Listener<?> createListener(@NotNull Method method, @Nullable Object obj, int id) {
         boolean isStatic = Modifier.isStatic(method.getModifiers());
 
         ClassNode classNode = new ClassNode();
