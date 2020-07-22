@@ -1,6 +1,5 @@
 package dev.deamsy.eventbus.api;
 
-import dev.deamsy.eventbus.api.event.ICancellableEvent;
 import dev.deamsy.eventbus.api.listener.LambdaEventListener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,7 +18,7 @@ public interface EventBus {
      * @param listener the listener implementation
      * @return an event listener ID which can be used to unregister this listener later
      */
-    <@NotNull T> int registerLambda(Class<T> eventClass, LambdaEventListener<T> listener);
+    <T> int registerLambda(@NotNull Class<@NotNull T> eventClass, @NotNull LambdaEventListener<@NotNull T> listener);
 
     /**
      * Registers a lambda listener to this event bus.
@@ -29,7 +28,7 @@ public interface EventBus {
      * @param priority the listener priority
      * @return an event listener ID which can be used to unregister this listener later
      */
-    <@NotNull T> int registerLambda(Class<T> eventClass, LambdaEventListener<T> listener, int priority);
+    <T> int registerLambda(@NotNull Class<@NotNull T> eventClass, @NotNull LambdaEventListener<@NotNull T> listener, int priority);
 
     /**
      * Registers an object's methods to this event bus.
@@ -72,7 +71,7 @@ public interface EventBus {
      *
      * @param object the object to unregister
      */
-    void unregister(Object object);
+    void unregister(@NotNull Object object);
 
     /**
      * Unregisters a class's static methods from this event bus.
@@ -81,7 +80,7 @@ public interface EventBus {
      *
      * @param clazz the class to unregister
      */
-    void unregister(Class<?> clazz);
+    void unregister(@NotNull Class<?> clazz);
 
     /**
      * Unregisters a class's methods from this event bus.
@@ -106,7 +105,7 @@ public interface EventBus {
      *
      * @param ids the listener IDs to unregister
      */
-    default void unregister(int[] ids) {
+    default void unregister(@NotNull int[] ids) {
         for (int id : ids) {
             unregister(id);
         }
@@ -119,5 +118,5 @@ public interface EventBus {
      * @throws IllegalStateException if one of the listeners failed to process the event
      * @return the event posted
      */
-    <@NotNull T> T post(T event);
+    <T> @NotNull T post(@NotNull T event);
 }

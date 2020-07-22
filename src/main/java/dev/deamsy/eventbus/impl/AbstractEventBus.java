@@ -16,17 +16,17 @@ public abstract class AbstractEventBus implements EventBus {
     }
 
     @Override
-    public <@NotNull T> int registerLambda(Class<@NotNull T> eventClass, LambdaEventListener<@NotNull T> listener) {
+    public <@NotNull T> int registerLambda(@NotNull Class<@NotNull T> eventClass, LambdaEventListener<@NotNull T> listener) {
         return registerLambda(eventClass, listener, 0);
     }
 
     @Override
-    public void unregister(Object object) {
+    public void unregister(@NotNull Object object) {
         unregister(castClassToObjectClass(object.getClass()), object);
     }
 
     @Override
-    public void unregister(Class<@NotNull ?> clazz) {
+    public void unregister(@NotNull Class<@NotNull ?> clazz) {
         unregister(clazz, null);
     }
 

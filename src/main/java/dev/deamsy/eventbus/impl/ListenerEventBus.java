@@ -21,7 +21,7 @@ public abstract class ListenerEventBus extends AbstractEventBus {
     protected Map<Integer, Listener<?>> listeners = new LinkedHashMap<>();
 
     @Override
-    public <@NotNull T> int registerLambda(Class<T> eventClass, LambdaEventListener<T> listener, int priority) {
+    public <@NotNull T> int registerLambda(@NotNull Class<T> eventClass, LambdaEventListener<T> listener, int priority) {
         return registerListener(new Listener<T>() {
             @Override
             public @NotNull Class<T> getEventClass() {
@@ -95,7 +95,7 @@ public abstract class ListenerEventBus extends AbstractEventBus {
     }
 
     @Override
-    public <T> T post(@NotNull T event) {
+    public <T> @NotNull T post(@NotNull T event) {
         for (Listener<?> listener : listeners.values()) {
             if (listener.getEventClass().isAssignableFrom(event.getClass())) {
                 try {
