@@ -17,7 +17,15 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public class ASMEventBus extends ListenerEventBus {
-    private final ASMClassLoader classLoader = new ASMClassLoader();
+    private final ASMClassLoader classLoader;
+
+    public ASMEventBus() {
+        this(ASMEventBus.class.getClassLoader());
+    }
+
+    public ASMEventBus(ClassLoader targetClassLoader) {
+        classLoader = new ASMClassLoader(targetClassLoader);
+    }
 
     @Override
     @SneakyThrows
@@ -93,6 +101,10 @@ public class ASMEventBus extends ListenerEventBus {
     }
 
     private static class ASMClassLoader extends ClassLoader {
+        public ASMClassLoader(ClassLoader parent) {
+            super(parent);
+        }
+
         public Class<?> load(String name, byte[] content) {
             return super.defineClass(name, content, 0, content.length);
         }
